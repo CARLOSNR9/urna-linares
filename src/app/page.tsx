@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useFirebase } from "@/lib/firebase";
+import { useSupabase } from "@/hooks/useSupabase";
 import { Header } from "@/components/Header";
 import { ProgressBar } from "@/components/ProgressBar";
 import { BarChart } from "@/components/BarChart";
@@ -15,7 +15,7 @@ import { Clock } from "lucide-react";
 const MapComponent = dynamic(() => import("@/components/MapComponent"), { ssr: false });
 
 export default function DashboardPage() {
-  const { mesas, loading } = useFirebase();
+  const { mesas, loading } = useSupabase();
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [timeAgoString, setTimeAgoString] = useState<string>("Buscando actualizaciones...");
   const [activeTab, setActiveTab] = useState<"senado" | "camara">("senado");

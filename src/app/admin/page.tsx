@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useFirebase } from "@/lib/firebase";
+import { useSupabase } from "@/hooks/useSupabase";
 import { Header } from "@/components/Header";
 import { PartidoSenado, PARTIDOS_SENADO, PartidoCamara, PARTIDOS_CAMARA } from "@/lib/models";
 import { Save, LogIn, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
-    const { mesas, updateMesaVotos, resetMesas } = useFirebase();
+    const { mesas, updateMesaVotos, resetMesas } = useSupabase();
     const router = useRouter();
 
     // Basic Auth State
