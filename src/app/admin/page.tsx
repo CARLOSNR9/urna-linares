@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { PartidoSenado, PARTIDOS_SENADO, PartidoCamara, PARTIDOS_CAMARA } from "@/lib/models";
 import { Save, LogIn, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminPage() {
     const { mesas, updateMesaVotos, resetMesas } = useSupabase();
@@ -108,8 +109,11 @@ export default function AdminPage() {
                 <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
                 <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl opacity-40"></div>
 
-                <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm z-10 relative border border-white/20">
-                    <div className="text-center mb-8">
+                <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm z-10 relative border border-white/20 flex flex-col items-center">
+                    <div className="w-20 h-20 relative bg-white rounded-2xl shadow-md mb-6 overflow-hidden">
+                        <Image src="/logo.png" alt="Urna Linares Logo" fill className="object-cover" />
+                    </div>
+                    <div className="text-center mb-8 w-full">
                         <h1 className="text-2xl font-bold text-brand-blue tracking-tight">URNA LINARES</h1>
                         <p className="text-sm text-gray-500">Acceso Restringido</p>
                     </div>
