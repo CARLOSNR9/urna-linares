@@ -70,7 +70,8 @@ export function useSupabase() {
                 .update({
                     reportada: true,
                     votosSenado: votosSenado,
-                    votosCamara: votosCamara
+                    votosCamara: votosCamara,
+                    updated_at: new Date().toISOString()
                 })
                 .eq('id', mesaId);
 

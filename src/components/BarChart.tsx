@@ -42,14 +42,9 @@ export function BarChart({ data }: BarChartProps) {
                             type="category"
                             axisLine={false}
                             tickLine={false}
-                            width={160}
+                            width={220} // Increased width for full names
                             tick={{ fill: '#4B5563', fontSize: 11, fontWeight: 500 }}
-                            tickFormatter={(value) => {
-                                // Simple truncation for very long names if needed, though width=160 + left=40 should fit most
-                                const limit = 28;
-                                if (value.length > limit) return `${value.substring(0, limit)}...`;
-                                return value;
-                            }}
+                            tickFormatter={(value) => value} // No truncation
                         />
                         <Tooltip
                             cursor={{ fill: 'transparent' }}

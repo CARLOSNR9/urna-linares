@@ -33,6 +33,7 @@ export interface Mesa {
   reportada: boolean;
   totalVotosSenado?: number;
   totalVotosCamara?: number;
+  updated_at?: string;
 }
 
 export const PUESTOS_VOTACION = [

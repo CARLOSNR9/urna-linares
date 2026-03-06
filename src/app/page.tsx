@@ -16,33 +16,54 @@ const MapComponent = dynamic(() => import("@/components/MapComponent"), { ssr: f
 
 export default function DashboardPage() {
   const { mesas, loading } = useSupabase();
-  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [timeAgoString, setTimeAgoString] = useState<string>("Buscando actualizaciones...");
   const [activeTab, setActiveTab] = useState<"senado" | "camara">("senado");
 
-  // Update logic for the "Time Ago" string
+  // Update logic for the "Time Ago" string based on the latest mesa report
   useEffect(() => {
-    // When the component mounts or `mesas` change (meaning new votes came in), reset the timer base.
-    setLastUpdated(new Date());
-  }, [mesas]);
+    const updateTimer = () => {
+      let latestTime = 0;
+      
+      // Find the absolute latest updated_at from all reported mesas
+      mesas.forEach((mesa) => {
+        if (mesa.reportada && mesa.updated_at) {
+          const time = new Date(mesa.updated_at).getTime();
+          if (time > latestTime) {
+            latestTime = time;
+          }
+        }
+      });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+      if (latestTime === 0) {
+        setTimeAgoString("Esperando reportes...");
+        return;
+      }
+
       const now = new Date();
-      const diffInSeconds = Math.floor((now.getTime() - lastUpdated.getTime()) / 1000);
+      // Calculate diff between NOW and the latest update across all mesas
+      const diffInSeconds = Math.floor((now.getTime() - latestTime) / 1000);
 
-      if (diffInSeconds < 60) {
+      // We add a safety check (max 0) in case client time slightly drifts before server time
+      const diff = Math.max(0, diffInSeconds);
+
+      if (diff < 60) {
         setTimeAgoString("Actualizado Ahora");
-      } else if (diffInSeconds < 120) {
+      } else if (diff < 120) {
         setTimeAgoString("Hace 1 minuto");
       } else {
-        const minutes = Math.floor(diffInSeconds / 60);
+        const minutes = Math.floor(diff / 60);
         setTimeAgoString(`Hace ${minutes} minutos`);
       }
-    }, 1000); // Check every second to keep it responsive
+    };
+
+    // Run right away
+    updateTimer();
+    
+    // Update the string exactly every 10 seconds (no need to spin every 1 second)
+    const interval = setInterval(updateTimer, 10000); 
 
     return () => clearInterval(interval);
-  }, [lastUpdated]);
+  }, [mesas]);
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center bg-brand-light text-brand-blue">Cargando Sistema...</div>;
