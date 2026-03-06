@@ -34,16 +34,17 @@ export interface Mesa {
   totalVotosSenado?: number;
   totalVotosCamara?: number;
   updated_at?: string;
+  orden?: number; // Used for global sorting
 }
 
 export const PUESTOS_VOTACION = [
   { nombre: "Puesto Cabecera Municipal", direccion: "I.E. Diego Luis Córdoba", totalMesas: 15 },
   { nombre: "San Francisco", direccion: "I.E. San Francisco de Asís", totalMesas: 2 },
   { nombre: "Bellavista", direccion: "Polideportivo Bellavista", totalMesas: 2 },
-  { nombre: "Bella Florida", direccion: "Centro Educativo Cristo Rey", totalMesas: 3 },
-  { nombre: "Llano Grande", direccion: "Centro Educativo Llano Grande Alto", totalMesas: 2 },
-  { nombre: "Tabiles", direccion: "I.E. Luis Carlos Galán", totalMesas: 3 },
-  { nombre: "Tambillo de Bravos", direccion: "Salón Comunal", totalMesas: 1 },
+  { nombre: "Bella Florida", direccion: "Centro Educativo Cristo Rey", totalMesas: 2 },
+  { nombre: "Llano Grande", direccion: "Centro Educativo Llano Grande Alto", totalMesas: 1 },
+  { nombre: "Tabiles", direccion: "I.E. Luis Carlos Galán", totalMesas: 4 },
+  { nombre: "Tambillo de Bravos", direccion: "Salón Comunal", totalMesas: 2 },
   { nombre: "Motilón", direccion: "Centro Educativo Motilón", totalMesas: 1 },
   { nombre: "Laguna del Pueblo", direccion: "Salón Comunal", totalMesas: 1 },
 ];
@@ -53,6 +54,7 @@ export function generarMesasIniciales(): Mesa[] {
   let contadorMesaGlobal = 1;
 
   for (const puesto of PUESTOS_VOTACION) {
+    let contadorMesaPuesto = 1;
     for (let i = 0; i < puesto.totalMesas; i++) {
 
       const votosSenadoVacio = {} as Record<PartidoSenado, number>;
@@ -67,12 +69,14 @@ export function generarMesasIniciales(): Mesa[] {
 
       mesas.push({
         id: `mesa_${contadorMesaGlobal}`,
-        numero: contadorMesaGlobal,
+        numero: contadorMesaPuesto, // Local Number
+        orden: contadorMesaGlobal,  // Global Index for sorting
         puesto: puesto.nombre,
         votosSenado: votosSenadoVacio,
         votosCamara: votosCamaraVacio,
         reportada: false,
       });
+      contadorMesaPuesto++;
       contadorMesaGlobal++;
     }
   }

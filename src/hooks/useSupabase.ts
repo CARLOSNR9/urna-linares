@@ -12,11 +12,17 @@ export function useSupabase() {
             try {
                 const { data, error } = await supabase
                     .from('mesas')
-                    .select('*')
-                    .order('numero', { ascending: true });
+                    .select('*');
 
                 if (error) throw error;
-                if (data) setMesas(data as Mesa[]);
+                if (data) {
+                    const sortedData = (data as Mesa[]).sort((a, b) => {
+                        const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
+                        const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
+                        return aNum - bNum;
+                    });
+                    setMesas(sortedData);
+                }
             } catch (err) {
                 console.error("Error fetching mesas:", err);
             } finally {
@@ -42,10 +48,18 @@ export function useSupabase() {
                         if (index !== -1) {
                             const updatedMesas = [...currentMesas];
                             updatedMesas[index] = payload.new as Mesa;
-                            return updatedMesas.sort((a, b) => a.numero - b.numero);
+                            return updatedMesas.sort((a, b) => {
+                                const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
+                                const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
+                                return aNum - bNum;
+                            });
                         } else {
                             // If it's a new row entirely
-                            return [...currentMesas, payload.new as Mesa].sort((a, b) => a.numero - b.numero);
+                            return [...currentMesas, payload.new as Mesa].sort((a, b) => {
+                                const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
+                                const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
+                                return aNum - bNum;
+                            });
                         }
                     });
                 }
