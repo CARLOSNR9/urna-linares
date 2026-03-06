@@ -187,8 +187,12 @@ export default function DashboardPage() {
           <div className="col-span-2">
             <PieChart participacion={activeTab === "senado" ? participacionSenado : participacionCamara} />
           </div>
-        </div>        <div className="mt-8 text-center text-xs text-gray-400">
-          Desarrollado para la Alcaldía de Linares
+        </div>
+
+        <TableMesas mesas={mesas} activeTab={activeTab} />
+
+        <div className="mt-8 text-center text-xs text-gray-400">
+           Desarrollado para la Alcaldía de Linares
         </div>
       </div>
     </main>
