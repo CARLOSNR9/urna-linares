@@ -8,11 +8,7 @@ import { BarChart } from "@/components/BarChart";
 import { PieChart } from "@/components/PieChart";
 import { TableMesas } from "@/components/TableMesas";
 import { PartidoSenado, PARTIDOS_SENADO, PartidoCamara, PARTIDOS_CAMARA } from "@/lib/models";
-import dynamic from "next/dynamic";
 import { Clock } from "lucide-react";
-
-// Dynamically import map to avoid SSR issues with Leaflet
-const MapComponent = dynamic(() => import("@/components/MapComponent"), { ssr: false });
 
 export default function DashboardPage() {
   const { mesas, loading } = useSupabase();
@@ -191,11 +187,7 @@ export default function DashboardPage() {
           <div className="col-span-2">
             <PieChart participacion={activeTab === "senado" ? participacionSenado : participacionCamara} />
           </div>
-        </div>
 
-        <MapComponent mesas={mesas} />
-
-        <TableMesas mesas={mesas} activeTab={activeTab} />
 
         <div className="mt-8 text-center text-xs text-gray-400">
           Desarrollado para la Alcaldía de Linares
