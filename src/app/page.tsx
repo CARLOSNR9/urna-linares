@@ -44,11 +44,15 @@ export default function DashboardPage() {
 
       if (diff < 60) {
         setTimeAgoString("Actualizado Ahora");
-      } else if (diff < 120) {
-        setTimeAgoString("Hace 1 minuto");
-      } else {
+      } else if (diff < 3600) {
         const minutes = Math.floor(diff / 60);
-        setTimeAgoString(`Hace ${minutes} minutos`);
+        setTimeAgoString(`Hace ${minutes} minuto${minutes > 1 ? 's' : ''}`);
+      } else if (diff < 86400) {
+        const hours = Math.floor(diff / 3600);
+        setTimeAgoString(`Hace ${hours} hora${hours > 1 ? 's' : ''}`);
+      } else {
+        const days = Math.floor(diff / 86400);
+        setTimeAgoString(`Hace ${days} día${days > 1 ? 's' : ''}`);
       }
     };
 
