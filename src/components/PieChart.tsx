@@ -48,6 +48,23 @@ export function PieChart({ participacion }: PieChartProps) {
                     <span className="text-2xl font-bold text-brand-blue">{participacion}%</span>
                 </div>
             </div>
+
+            <div className="mt-4 pt-4 border-t border-gray-100 w-full">
+                <div className="flex justify-between items-center text-xs text-gray-500 mb-3 px-1">
+                    <span className="font-semibold text-gray-600 uppercase tracking-wider text-[10px]">Censo Electoral (Aptos)</span>
+                    <span className="font-bold text-gray-800 text-sm">8.624</span>
+                </div>
+                <div className="flex gap-2">
+                    <div className="flex-1 bg-pink-50/70 border border-pink-100 text-pink-700 rounded-lg p-2 flex flex-col items-center justify-center transition-all hover:bg-pink-50">
+                        <span className="font-medium text-[10px] uppercase tracking-wide mb-0.5">Mujeres👩</span>
+                        <span className="font-bold text-sm">4.226</span>
+                    </div>
+                    <div className="flex-1 bg-blue-50/70 border border-blue-100 text-blue-700 rounded-lg p-2 flex flex-col items-center justify-center transition-all hover:bg-blue-50">
+                        <span className="font-medium text-[10px] uppercase tracking-wide mb-0.5">Hombres👨</span>
+                        <span className="font-bold text-sm">4.398</span>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
