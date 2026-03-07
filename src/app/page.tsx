@@ -19,7 +19,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const updateTimer = () => {
       let latestTime = 0;
-      
+
       // Find the absolute latest updated_at from all reported mesas
       mesas.forEach((mesa) => {
         if (mesa.reportada && mesa.updated_at) {
@@ -58,9 +58,9 @@ export default function DashboardPage() {
 
     // Run right away
     updateTimer();
-    
+
     // Update the string exactly every 10 seconds (no need to spin every 1 second)
-    const interval = setInterval(updateTimer, 10000); 
+    const interval = setInterval(updateTimer, 10000);
 
     return () => clearInterval(interval);
   }, [mesas]);
@@ -120,8 +120,9 @@ export default function DashboardPage() {
     }))
     .filter(party => party.value > 0);
 
-  // Estimate a mock total base to calculate participation.
-  const potencialElectores = 8000;
+  // Potencial electoral real en Linares
+  // Aptos para votar: 8624 (Mujeres: 4226, Hombres: 4398)
+  const potencialElectores = 8624;
 
   const participacionSenado = totalVotosEscrutadosSenado > 0
     ? Math.min(100, Math.round((totalVotosEscrutadosSenado / potencialElectores) * 100))
@@ -196,7 +197,7 @@ export default function DashboardPage() {
         <TableMesas mesas={mesas} activeTab={activeTab} />
 
         <div className="mt-8 text-center text-xs text-gray-400">
-           Desarrollado para la Alcaldía de Linares
+          Desarrollado para la Alcaldía de Linares
         </div>
       </div>
     </main>
