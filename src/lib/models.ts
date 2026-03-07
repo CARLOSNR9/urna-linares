@@ -68,7 +68,7 @@ export function generarMesasIniciales(): Mesa[] {
       });
 
       mesas.push({
-        id: `mesa_${contadorMesaGlobal}`,
+        id: `mesa-${contadorMesaGlobal}`,
         numero: contadorMesaPuesto, // Local Number
         orden: contadorMesaGlobal,  // Global Index for sorting
         puesto: puesto.nombre,

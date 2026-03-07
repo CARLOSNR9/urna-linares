@@ -23,8 +23,8 @@ export function useSupabase() {
                         const t = getT(m.id);
                         return t ? { ...m, numero: t.numero } : m;
                     }).sort((a, b) => {
-                        const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
-                        const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
+                        const aNum = parseInt(a.id.replace('mesa-', '')) || 0;
+                        const bNum = parseInt(b.id.replace('mesa-', '')) || 0;
                         return aNum - bNum;
                     });
                     setMesas(sortedData);
@@ -62,15 +62,15 @@ export function useSupabase() {
                             const updatedMesas = [...currentMesas];
                             updatedMesas[index] = fixedMesa;
                             return updatedMesas.sort((a, b) => {
-                                const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
-                                const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
+                                const aNum = parseInt(a.id.replace('mesa-', '')) || 0;
+                                const bNum = parseInt(b.id.replace('mesa-', '')) || 0;
                                 return aNum - bNum;
                             });
                         } else {
                             // If it's a new row entirely
                             return [...currentMesas, fixedMesa].sort((a, b) => {
-                                const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
-                                const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
+                                const aNum = parseInt(a.id.replace('mesa-', '')) || 0;
+                                const bNum = parseInt(b.id.replace('mesa-', '')) || 0;
                                 return aNum - bNum;
                             });
                         }
