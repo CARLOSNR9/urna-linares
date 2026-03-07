@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Mesa } from '@/lib/models';
+import { Mesa, generarMesasIniciales } from '@/lib/models';
 
 export function useSupabase() {
     const [mesas, setMesas] = useState<Mesa[]>([]);
@@ -16,7 +16,13 @@ export function useSupabase() {
 
                 if (error) throw error;
                 if (data) {
-                    const sortedData = (data as Mesa[]).sort((a, b) => {
+                    const templates = generarMesasIniciales();
+                    const getT = (id: string) => templates.find(t => t.id === id);
+
+                    const sortedData = (data as Mesa[]).map(m => {
+                        const t = getT(m.id);
+                        return t ? { ...m, numero: t.numero, puesto: t.puesto } : m;
+                    }).sort((a, b) => {
                         const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
                         const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
                         return aNum - bNum;
@@ -44,10 +50,17 @@ export function useSupabase() {
                 },
                 (payload) => {
                     setMesas((currentMesas) => {
-                        const index = currentMesas.findIndex((m) => m.id === (payload.new as Mesa).id);
+                        const templates = generarMesasIniciales();
+                        const getT = (id: string) => templates.find(t => t.id === id);
+
+                        const newMesaRaw = payload.new as Mesa;
+                        const t = getT(newMesaRaw.id);
+                        const fixedMesa = t ? { ...newMesaRaw, numero: t.numero, puesto: t.puesto } : newMesaRaw;
+
+                        const index = currentMesas.findIndex((m) => m.id === fixedMesa.id);
                         if (index !== -1) {
                             const updatedMesas = [...currentMesas];
-                            updatedMesas[index] = payload.new as Mesa;
+                            updatedMesas[index] = fixedMesa;
                             return updatedMesas.sort((a, b) => {
                                 const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
                                 const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
@@ -55,7 +68,7 @@ export function useSupabase() {
                             });
                         } else {
                             // If it's a new row entirely
-                            return [...currentMesas, payload.new as Mesa].sort((a, b) => {
+                            return [...currentMesas, fixedMesa].sort((a, b) => {
                                 const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
                                 const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
                                 return aNum - bNum;
