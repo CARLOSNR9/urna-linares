@@ -45,15 +45,34 @@ export function BarChart({ data, puestosUnicos, selectedPuesto, onPuestoChange }
                     >
                         Total Linares
                     </button>
-                    {puestosUnicos.map((puesto) => (
-                        <button
-                            key={puesto}
-                            onClick={() => onPuestoChange(puesto)}
-                            className={`whitespace-nowrap px-3 py-1.5 text-xs font-medium rounded-full transition-all ${selectedPuesto === puesto ? 'bg-brand-blue text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                        >
-                            {puesto}
-                        </button>
-                    ))}
+                    {puestosUnicos.map((puesto) => {
+                        let shortName = puesto;
+                        const lowerPuesto = puesto.toLowerCase();
+                        if (lowerPuesto.includes("cabecera")) shortName = "Cabecera";
+                        else if (lowerPuesto.includes("san francisco")) shortName = "San Francisco";
+                        else if (lowerPuesto.includes("bella florida")) shortName = "Bellaflorida";
+                        else if (lowerPuesto.includes("bellavista")) shortName = "Bellavista";
+                        else if (lowerPuesto.includes("llano grande")) shortName = "Llanogrande";
+                        else if (lowerPuesto.includes("tabiles")) shortName = "Tabiles";
+                        else if (lowerPuesto.includes("tambillo")) shortName = "Tambillo";
+                        else if (lowerPuesto.includes("laguna")) shortName = "Laguna";
+                        else if (lowerPuesto.includes("motil")) shortName = "Motilón";
+                        else {
+                            // Fallback if there's any other prefix
+                            shortName = puesto.split('(')[0].replace("Puesto", "").trim();
+                        }
+
+                        return (
+                            <button
+                                key={puesto}
+                                onClick={() => onPuestoChange(puesto)}
+                                className={`whitespace-nowrap px-3 py-1.5 text-xs font-medium rounded-full transition-all ${selectedPuesto === puesto ? 'bg-brand-blue text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                title={puesto}
+                            >
+                                {shortName}
+                            </button>
+                        );
+                    })}
                 </div>
             )}
 
