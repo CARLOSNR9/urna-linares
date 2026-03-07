@@ -22,18 +22,42 @@ const COLORS: Record<string, string> = {
 
 interface BarChartProps {
     data: { name: string; value: number }[];
+    puestosUnicos: string[];
+    selectedPuesto: string;
+    onPuestoChange: (puesto: string) => void;
 }
 
-export function BarChart({ data }: BarChartProps) {
+export function BarChart({ data, puestosUnicos, selectedPuesto, onPuestoChange }: BarChartProps) {
     // Sort data descending to show winner at top
     const sortedData = [...data].sort((a, b) => b.value - a.value);
 
     return (
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4 h-72">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
+        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4 h-[350px] flex flex-col">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide shrink-0">
                 Votos por Candidato
             </h3>
-            <div className="h-52">
+
+            {puestosUnicos.length > 0 && (
+                <div className="flex overflow-x-auto hide-scrollbar gap-2 mb-4 pb-2 shrink-0 px-1 border-b border-gray-50">
+                    <button
+                        onClick={() => onPuestoChange("Todos")}
+                        className={`whitespace-nowrap px-3 py-1.5 text-xs font-medium rounded-full transition-all ${selectedPuesto === 'Todos' ? 'bg-brand-blue text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                    >
+                        Total Linares
+                    </button>
+                    {puestosUnicos.map((puesto) => (
+                        <button
+                            key={puesto}
+                            onClick={() => onPuestoChange(puesto)}
+                            className={`whitespace-nowrap px-3 py-1.5 text-xs font-medium rounded-full transition-all ${selectedPuesto === puesto ? 'bg-brand-blue text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                        >
+                            {puesto}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+            <div className="flex-1 min-h-0 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChartRecharts data={sortedData} layout="vertical" margin={{ top: 0, right: 50, left: 40, bottom: 0 }}>
                         <XAxis type="number" hide />

@@ -174,31 +174,6 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        {/* Puesto Selector */}
-        {puestosUnicos.length > 0 && (
-          <div className="mb-6">
-            <label htmlFor="puesto-select" className="sr-only">Filtrar por puesto de votación</label>
-            <div className="relative">
-              <select
-                id="puesto-select"
-                value={selectedPuesto}
-                onChange={(e) => setSelectedPuesto(e.target.value)}
-                className="w-full bg-white border border-gray-200 text-gray-700 py-2.5 px-4 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-blue/30 appearance-none shadow-sm cursor-pointer"
-              >
-                <option value="Todos">Todos los puestos (Mpio. Linares)</option>
-                {puestosUnicos.map(puesto => (
-                  <option key={puesto} value={puesto}>{puesto}</option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Módulo Progress */}
         <ProgressBar total={totalMesas} current={mesasReportadas} />
 
@@ -221,7 +196,12 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="col-span-2">
-            <BarChart data={activeTab === "senado" ? chartDataSenado : chartDataCamara} />
+            <BarChart
+              data={activeTab === "senado" ? chartDataSenado : chartDataCamara}
+              puestosUnicos={puestosUnicos}
+              selectedPuesto={selectedPuesto}
+              onPuestoChange={setSelectedPuesto}
+            />
           </div>
           <div className="col-span-2">
             <PieChart participacion={activeTab === "senado" ? participacionSenado : participacionCamara} />
