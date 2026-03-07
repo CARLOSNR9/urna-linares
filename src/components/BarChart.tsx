@@ -35,7 +35,7 @@ export function BarChart({ data }: BarChartProps) {
             </h3>
             <div className="h-52">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChartRecharts data={sortedData} layout="vertical" margin={{ top: 0, right: 20, left: 40, bottom: 0 }}>
+                    <BarChartRecharts data={sortedData} layout="vertical" margin={{ top: 0, right: 50, left: 40, bottom: 0 }}>
                         <XAxis type="number" hide />
                         <YAxis
                             dataKey="name"
