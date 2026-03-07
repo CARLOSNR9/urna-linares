@@ -21,7 +21,7 @@ export function useSupabase() {
 
                     const sortedData = (data as Mesa[]).map(m => {
                         const t = getT(m.id);
-                        return t ? { ...m, numero: t.numero, puesto: t.puesto } : m;
+                        return t ? { ...m, numero: t.numero } : m;
                     }).sort((a, b) => {
                         const aNum = parseInt(a.id.replace('mesa_', '')) || 0;
                         const bNum = parseInt(b.id.replace('mesa_', '')) || 0;
@@ -55,7 +55,7 @@ export function useSupabase() {
 
                         const newMesaRaw = payload.new as Mesa;
                         const t = getT(newMesaRaw.id);
-                        const fixedMesa = t ? { ...newMesaRaw, numero: t.numero, puesto: t.puesto } : newMesaRaw;
+                        const fixedMesa = t ? { ...newMesaRaw, numero: t.numero } : newMesaRaw;
 
                         const index = currentMesas.findIndex((m) => m.id === fixedMesa.id);
                         if (index !== -1) {
