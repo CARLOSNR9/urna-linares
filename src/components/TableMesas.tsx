@@ -42,7 +42,7 @@ export function TableMesas({ mesas, activeTab }: TableMesasProps) {
                                     <td className="px-4 py-3 font-medium text-gray-900 border-r border-gray-50">
                                         Mesa {mesa.numero}
                                     </td>
-                                    <td className="px-4 py-3 text-gray-600 truncate max-w-[150px]">
+                                    <td className="px-4 py-3 text-gray-600">
                                         {mesa.puesto}
                                     </td>
                                     <td className="px-4 py-3 text-center">
